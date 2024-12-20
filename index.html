@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSE Test</title>
+</head>
+<body>
+  <div id="sse-data"></div>
+  <script>
+    const sseData = document.getElementById('sse-data');
+    const eventSource = new EventSource('http://localhost:8080/events');
+
+    // Add a listemer for each kind of event
+    eventSource.addEventListener('ticker', (event) => {
+      sseData.innerHTML += event.data + "<br/>";
+    });
+
+    eventSource.onerror = (error) => {
+      console.error('EventSource failed:', error);
+      eventSource.close();
+    };
+  </script>
+</body>
+</html>
